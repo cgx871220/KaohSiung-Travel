@@ -11,6 +11,9 @@ axios.get(url).then((res) => {
   dataList.value = res.data.data.XML_Head.Infos.Info
   sel.value= '景點資料'
 })
+.catch((err)=>{
+sel.value = `伺服器錯誤,錯誤代碼${err.response.status}`
+})
 </script>
 
 <template>
@@ -45,9 +48,12 @@ axios.get(url).then((res) => {
       </div>
     </div>
   </div>
+  <footer class="fixed-bottom text-center ">
+    資料來源 <a href="https://api.kcg.gov.tw/">高雄城市資料平台</a>
+  </footer>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 select {
   outline: none;
   padding: 3px 10px;
@@ -70,5 +76,14 @@ select {
 }
 option {
   width: 50%;
+}
+footer{
+  color: rgb(80, 77, 77);
+  width: 100%;
+  background-color: rgb(222, 244, 244);
+  & a{
+    color: rgb(80, 77, 77);
+    text-decoration: none;
+  }
 }
 </style>
