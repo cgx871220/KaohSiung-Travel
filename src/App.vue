@@ -6,8 +6,9 @@ const url = import.meta.env.VITE_URL
 const dataList = ref([])
 const sel = ref('請稍後取得資料中')
 const optionTag = ref('')
-
+const isGet = ref(false)
 axios.get(url).then((res) => {
+  isGet.value = true
   dataList.value = res.data.data.XML_Head.Infos.Info
   sel.value= '景點資料'
 })
@@ -17,6 +18,7 @@ sel.value = `伺服器錯誤,錯誤代碼${err.response.status}`
 </script>
 
 <template>
+  
   <div class="img">
     <h2 class="text-center text-primary">高雄景點資訊</h2>
     <select  class="mt-2 text-secondary" v-model="optionTag">
@@ -26,8 +28,8 @@ sel.value = `伺服器錯誤,錯誤代碼${err.response.status}`
         </option>
     </select>
   </div>
-  <div class="container mt-5">
-    <div class="row">
+  <div class="container mt-5 mb-5">
+    <div class="row" v-if="isGet">
       <div class="col-lg-4">
         <div class="div text-secondary">
           <h5 class="h5" style="font-weight: 500">地點名稱:{{ optionTag.Name }}</h5>
@@ -47,11 +49,19 @@ sel.value = `伺服器錯誤,錯誤代碼${err.response.status}`
         </div>
       </div>
     </div>
+    <div class="row" v-else>
+        <div class="col text-center">
+          <p>取得資料中...</p>
+          <img src="../public/duck.gif" alt="">
+          
+        </div>
+    </div>
   </div>
   <footer class="fixed-bottom text-center ">
     資料來源 <a href="https://api.kcg.gov.tw/">高雄城市資料平台</a>
   </footer>
 </template>
+
 
 <style lang="scss" scoped>
 select {
